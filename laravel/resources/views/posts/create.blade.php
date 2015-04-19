@@ -3,26 +3,12 @@
 @section('content')
     <div class="row">
     <div class="col-md-8 col-md-offset-2">
+
+    <h1>Create new blog post</h1>
+
     {!! Form::open(array('action' => 'PostController@store')) !!}
 
-    <div class="form-group">
-        {!! Form::label('headline','Headline:') !!}
-        {!! Form::text('headline',null,array('class'=>'form-control')) !!}
-    </div>
-
-    <div class="form-group">
-        {!! Form::label('body','Body:') !!}
-        {!! Form::textarea('body',null,array('class'=>'form-control')) !!}
-    </div>
-
-    <div class="form-group">
-        {!! Form::label('published_at','Publish at:') !!}
-        {!! Form::date('published_at',\Carbon\Carbon::now(),array('class'=>'form-control')) !!}
-    </div>
-
-    <div class="form-group">
-        {!! Form::submit('Create') !!}
-    </div>
+    @include('posts._form-fields', ['submitText' => 'Create'])
 
     {!! Form::close() !!}
     </div>

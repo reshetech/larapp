@@ -4,10 +4,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model {
 
-    protected $table = 'posts';
+    protected $table    = 'posts';
 
-    protected $dates = ['published_at'];
+    protected $dates    = ['published_at'];
 
     protected $fillable = ['headline','body','published_at'];
 
+    public function meta()
+    {
+        return $this -> hasOne('App\Meta');
+    }
 }

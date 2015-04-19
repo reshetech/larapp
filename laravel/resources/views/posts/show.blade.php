@@ -6,7 +6,7 @@
         <h1>{{ $post->headline }}</h1>
         <p>Published at: {{ $post->published_at->toFormattedDateString() }}</p>
         <div>
-            {{ $post->body }}
+            {!! $post->body !!}
         </div>
 
     </div>

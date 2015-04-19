@@ -4,7 +4,8 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Laravel</title>
+
+    @include('partials.meta')
 
 	<link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
@@ -53,10 +54,30 @@
 		</div>
 	</nav>
 
+    @if(Session::has('success') || Session::has('failure'))
+        @if(Session::has('success'))
+        <div class="flash alert alert-success">
+            {{ Session::get('success') }}
+        @elseif(Session::has('failure'))
+        <div class="flash alert alert-danger">
+            {{ Session::get('failure') }}
+        @endif
+            <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    @endif
+
 	@yield('content')
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script>
+        (function($){
+            var flash = $(".flash"), flashBtn = flash.find("button");
+            flashBtn.on('click',function(){
+                flash.slideUp();
+            });
+        }(jQuery));
+    </script>
 </body>
 </html>
