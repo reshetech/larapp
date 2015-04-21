@@ -9,6 +9,7 @@ use Validator;
 
 use App\Meta;
 use App\Post;
+use App\Tag;
 
 class PostController extends Controller {
 
@@ -124,6 +125,24 @@ class PostController extends Controller {
 	{
 		//
 	}
+
+    public function search()
+    {
+        $input = Request::all();
+        
+        $input["q"] = preg_replace('/[^A-Za-z0-9 \-\_]/','',Request::input('q'));
+
+        $v = Validator::make( $input, ['q' => 'required|min:2'] );
+
+        if($v->fails())
+            return Redirect::to("/");
+
+        $q = $input['q'];
+
+        $posts = Post::where('headline', 'LIKE', "%$q%")->select(['id', 'headline'])->get();
+
+        return view('search_results', compact('posts', 'q'));
+    }
 
     private function validator($input)
     {

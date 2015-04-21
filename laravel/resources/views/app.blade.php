@@ -20,39 +20,62 @@
 	<![endif]-->
 </head>
 <body>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle Navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">Laravel</a>
-			</div>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Home</a></li>
-				</ul>
+<div class="navbar navbar-inverse navbar-static-top" role="navigation">
 
-				<ul class="nav navbar-nav navbar-right">
-					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}">Login</a></li>
-						<li><a href="{{ url('/auth/register') }}">Register</a></li>
-					@else
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
-							</ul>
-						</li>
-					@endif
-				</ul>
-			</div>
-		</div>
-	</nav>
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" rel="home" href="{{ url('/') }}" title="Homepage">Home</a>
+    </div>
+
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+        <ul class="nav navbar-nav">
+            <li><a href="/topic/notes/">notes</a></li>
+            <li><a href="/topic/dev/">dev</a></li>
+            <li><a href="/topic/good-reads/">good-reads</a></li>
+            <li><a href="/topic/art/">/</a></li>
+            <li><a href="/topic/bookmarks/">bookmarks</a></li>
+            <li><a href="/all-topics/">all</a></li>
+        </ul>
+
+        <div class="col-sm-3 col-md-3">
+            {!! Form::open(['action' => 'PostController@search', 'method' => 'GET', 'role' => 'search', 'class' => 'navbar-form']) !!}
+                <input type="text" id="q" name="q" placeholder="Search...">
+            {!! Form::close() !!}
+        </div>
+
+        <ul class="nav navbar-nav pull-right">
+            @if (Auth::guest())
+                <li><a href="{{ url('/auth/login') }}">Login</a></li>
+                <li><a href="{{ url('/auth/register') }}">Register</a></li>
+            @else
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->name }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{ url('/auth/logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+            @endif
+        </ul>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 
     @if(Session::has('success') || Session::has('failure'))
         @if(Session::has('success'))

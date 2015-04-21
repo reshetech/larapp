@@ -14,4 +14,9 @@ class Post extends Model {
     {
         return $this -> hasOne('App\Meta');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 }
