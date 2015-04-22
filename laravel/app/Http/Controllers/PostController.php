@@ -52,7 +52,7 @@ class PostController extends Controller {
         // Create a new record.
         $newPost = Post::create( $input );
 
-        // Success in saving : show new blog post.
+        // Success in saving : create a slug, add meta tags and show new blog post.
         if(isset( $newPost->id ) && (int)$newPost -> id > 0)
         {
             $slug = $input['slug'];
@@ -61,6 +61,19 @@ class PostController extends Controller {
             $slugObj = new Slug(['post_id' => $newPost -> id, 'slug' => $slug]);
 
             $newPost -> slug() -> save( $slugObj );
+
+            // Save meta.
+            $metaObj = new Meta([
+                'title'          => $input['title'],
+                'description'    => $input['description'],
+                'twitter_card'   => $input['twitter_card'],
+                'og_title'       => $input['og_title'],
+                'og_image'       => $input['og_image'],
+                'og_description' => $input['og_description'],
+                'post_id'        => $newPost -> id
+            ]);
+
+            $newPost -> slug() -> save( $metaObj );
 
 
             return Redirect::to("blog/$slug")->with("success", "A new blog post was just created.");
@@ -102,13 +115,14 @@ class PostController extends Controller {
 	 * @param  int  $slug
 	 * @return Response
 	 */
-	public function update($slug)
+	public function update( $slug )
 	{
         $slug  = $this -> filterSlug( $slug );
 
         $input = $this -> filterInput( Request::all() );
 
-        // Validation
+
+        // Validation.
         if($this -> validator( $input ) -> fails())
             return Redirect::to("blog/$slug/edit")->withErrors( $this -> validator( $input ) )->withInput( $input );
 
@@ -119,11 +133,21 @@ class PostController extends Controller {
         $isUpdated = $this -> postBySlug( $slug ) -> update( $input );
 
 
-        // Update related model.
-        $post -> slug() -> update( ['slug' => Request::input('slug')] );
+        // Update related model: Slug.
+        $post -> slug() -> update( ['slug' => $input['slug']] );
+
+        // Update related model: Meta.
+        $post -> meta() -> update([
+            'title'          => $input['title'],
+            'description'    => $input['description'],
+            'twitter_card'   => $input['twitter_card'],
+            'og_title'       => $input['og_title'],
+            'og_image'       => $input['og_image'],
+            'og_description' => $input['og_description']
+        ]);
 
         // Consider the new slug, if created.
-        $slug = Request::input('slug')?: $slug;
+        $slug = $input['slug']?: $slug;
 
 
         // Show the updated blog post or a failure message.
@@ -151,7 +175,7 @@ class PostController extends Controller {
     {
         $input = Request::all();
 
-        $input["q"] = preg_replace('/[^A-Za-z0-9 \-\_]/','',Request::input('q'));
+        $input["q"] = preg_replace('/[^A-Za-z0-9 \-\_]/', '', Request::input('q'));
 
         $v = Validator::make( $input, ['q' => 'required|min:2'] );
 
@@ -160,7 +184,7 @@ class PostController extends Controller {
 
         $q = $input['q'];
 
-        $posts = Post::where('headline', 'LIKE', "%$q%")->select(['id', 'headline'])->get();
+        $posts = Post::where('headline', 'LIKE', "%$q%") -> select(['id', 'headline']) -> get();
 
         return view('search_results', compact('posts', 'q'));
     }
@@ -182,21 +206,7 @@ class PostController extends Controller {
         // Validate the inputs
         return Validator::make( $input, $rules );
     }
-/***
-    private function storeMetas($input, $id)
-    {
-        // Check if the model exists.
-        $m = Meta::where('post_id', '=', $id) -> first();
 
-        if($m)
-            return Meta::where('post_id', '=', $id)->update( $input );
-
-
-        $input['post_id'] = $id;
-
-        return Meta::create( $input );
-    }
-***/
     /**
      * @param $input
      * @return mixed

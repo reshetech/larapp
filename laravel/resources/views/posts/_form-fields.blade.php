@@ -40,6 +40,60 @@
 
 <h2>Meta tags</h2>
 
+<div class="form-group">
+    {!! Form::label('title','Title:') !!}
+    @if(isset($post))
+        {!! Form::text('title', $post->meta->title, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::text('title', Request::input('title'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
+<div class="form-group">
+    {!! Form::label('og_title','Og title:') !!}
+    @if(isset($post))
+        {!! Form::text('og_title', $post->meta->og_title, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::text('og_title', Request::input('og_title'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
+<div class="form-group">
+    {!! Form::label('description','Description:') !!}
+    @if(isset($post))
+        {!! Form::textarea('description', $post->meta->description, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::textarea('description', Request::input('description'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
+<div class="form-group">
+    {!! Form::label('og_description','Og description:') !!}
+    @if(isset($post))
+        {!! Form::textarea('og_description', $post->meta->og_description, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::textarea('og_description', Request::input('og_description'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
+<div class="form-group">
+    {!! Form::label('twitter_card','Twitter card:') !!}
+    @if(isset($post))
+        {!! Form::textarea('twitter_card', $post->meta->twitter_card, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::textarea('twitter_card', Request::input('twitter_card'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
+<div class="form-group">
+    {!! Form::label('og_image','Og image:') !!}
+    @if(isset($post))
+        {!! Form::text('og_image', $post->meta->og_image, ['class'=>'form-control']) !!}
+    @else
+        {!! Form::text('og_image', Request::input('og_image'), ['class'=>'form-control']) !!}
+    @endif
+</div>
+
 <hr />
 
 <div class="form-group">

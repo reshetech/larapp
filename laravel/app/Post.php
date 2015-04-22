@@ -20,8 +20,8 @@ class Post extends Model {
         return $this -> hasOne('App\Slug');
     }
 
-    public function tags()
+    public function tag()
     {
-        return $this -> belongsToMany('App\Tag');
+        return $this -> hasOne('App\Tag');
     }
 }
