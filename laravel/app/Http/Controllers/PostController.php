@@ -9,6 +9,7 @@ use Validator;
 
 use App\Meta;
 use App\Post;
+use App\Slug;
 use App\Tag;
 
 class PostController extends Controller {
@@ -42,22 +43,27 @@ class PostController extends Controller {
 	 */
 	public function store()
 	{
-		$input = Request::all();
+		$input = $this -> filterInput( Request::all() );
 
         // Validation.
-        if($this -> validator($input) -> fails())
-            return Redirect::to('blog/create')->withErrors( $this -> validator($input) )->withInput( $input );
+        if($this -> validator( $input ) -> fails())
+            return Redirect::to('blog/create') -> withErrors( $this -> validator( $input ) ) -> withInput( $input );
 
         // Create a new record.
-        $newPost = Post::create($input);
+        $newPost = Post::create( $input );
 
         // Success in saving : show new blog post.
-        if(isset($newPost->id) && (int)$newPost -> id > 0)
+        if(isset( $newPost->id ) && (int)$newPost -> id > 0)
         {
-            // Store meta tags.
-            $this -> storeMetas($input, $newPost->id);
+            $slug = $input['slug'];
 
-            return Redirect::to("blog/$newPost->id")->with("success", "A new blog post was just created.");
+            // Save slug.
+            $slugObj = new Slug(['post_id' => $newPost -> id, 'slug' => $slug]);
+
+            $newPost -> slug() -> save( $slugObj );
+
+
+            return Redirect::to("blog/$slug")->with("success", "A new blog post was just created.");
         }
 
         // Problem saving.
@@ -67,26 +73,25 @@ class PostController extends Controller {
 	/**
 	 * Display the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $slug
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($slug)
 	{
-		$post = Post::findOrFail($id);
+        $post = Slug::where('slug', $this -> filterSlug( $slug )) -> firstOrFail() -> post;
 
-        // Show the post.
-        return view('posts.show',compact('post'));
+        return view('posts.show', compact('post'));
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  int  $slug
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-        $post = Post::findOrFail($id);
+	public function edit($slug)
+    {
+        $post = $this -> postBySlug( $this -> filterSlug( $slug ) );
 
         return view('posts.edit',compact('post'));
 	}
@@ -94,25 +99,38 @@ class PostController extends Controller {
 	/**
 	 * Update the specified resource in storage.
 	 *
-	 * @param  int  $id
+	 * @param  int  $slug
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($slug)
 	{
-        $input = Request::all();
+        $slug  = $this -> filterSlug( $slug );
+
+        $input = $this -> filterInput( Request::all() );
 
         // Validation
-        if($this -> validator($input) -> fails())
-            return Redirect::to("blog/$id/edit")->withErrors( $this -> validator($input) )->withInput( $input );
+        if($this -> validator( $input ) -> fails())
+            return Redirect::to("blog/$slug/edit")->withErrors( $this -> validator( $input ) )->withInput( $input );
 
-        // Update an existing record.
-        $isUpdated = Post::find($id)->update( $input );
+
+        // Update the model.
+        $post = $this -> postBySlug( $slug );
+
+        $isUpdated = $this -> postBySlug( $slug ) -> update( $input );
+
+
+        // Update related model.
+        $post -> slug() -> update( ['slug' => Request::input('slug')] );
+
+        // Consider the new slug, if created.
+        $slug = Request::input('slug')?: $slug;
+
 
         // Show the updated blog post or a failure message.
         if($isUpdated)
-            return Redirect::to("blog/$id")->with("success", "The blog was successfully updated.");
+            return Redirect::to("blog/$slug")->with("success", "The blog was successfully updated.");
 
-        return Redirect::to("blog/$id")->with("failure", "Fail attempt in updating the blog post.");
+        return Redirect::to("blog/$slug")->with("failure", "Fail attempt in updating the blog post.");
 	}
 
 	/**
@@ -121,15 +139,18 @@ class PostController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($slug)
 	{
 		//
 	}
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function search()
     {
         $input = Request::all();
-        
+
         $input["q"] = preg_replace('/[^A-Za-z0-9 \-\_]/','',Request::input('q'));
 
         $v = Validator::make( $input, ['q' => 'required|min:2'] );
@@ -144,19 +165,24 @@ class PostController extends Controller {
         return view('search_results', compact('posts', 'q'));
     }
 
-    private function validator($input)
+    /**
+     * @param $input
+     * @return mixed
+     */
+    private function validator( $input )
     {
         // Validation rules
         $rules = array(
             'headline'     => 'required|min:10',// to do - need to be unique
             'body'         => 'required|min:20',
-            'published_at' => 'required|date'
+            'published_at' => 'required|date',
+            'slug'         => 'required'
         );
 
         // Validate the inputs
         return Validator::make( $input, $rules );
     }
-
+/***
     private function storeMetas($input, $id)
     {
         // Check if the model exists.
@@ -169,5 +195,34 @@ class PostController extends Controller {
         $input['post_id'] = $id;
 
         return Meta::create( $input );
+    }
+***/
+    /**
+     * @param $input
+     * @return mixed
+     */
+    private function filterInput( $input )
+    {
+        $input['slug'] = $this -> filterSlug( $input['slug'] );
+
+        return $input;
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    private function filterSlug( $slug )
+    {
+        return preg_replace('/[^A-Za-z0-9\-\_]/', '', $slug);
+    }
+
+    /**
+     * @param $slug
+     * @return mixed
+     */
+    private function postBySlug( $slug )
+    {
+        return $post = Slug::where('slug', $slug) -> firstOrFail() -> post;
     }
 }

@@ -7,8 +7,8 @@
         @unless($posts->isEmpty())
             <h1>All the posts</h1>
 
-            @foreach($posts as $post)
-                <h2><a href="{{ url('blog/' . $post->id) }}">{{ $post->headline }}</a></h2>
+            @foreach( $posts as $post )
+                <h2><a href="{{ url('blog/' . $post->slug->slug) }}">{{ $post->headline }}</a></h2>
             @endforeach
 
         @else

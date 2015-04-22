@@ -6,7 +6,7 @@
 
     <h1>Edit the blog post</h1>
 
-    {!! Form::model($post,['route' => ["blog.update", $post->id], 'method' => 'PATCH']) !!}
+    {!! Form::model($post,['route' => ["blog.update", $post->slug->slug], 'method' => 'PATCH']) !!}
 
     @include('posts._form-fields', ['submitText' => 'Edit'])
 

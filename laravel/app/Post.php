@@ -15,8 +15,13 @@ class Post extends Model {
         return $this -> hasOne('App\Meta');
     }
 
+    public function slug()
+    {
+        return $this -> hasOne('App\Slug');
+    }
+
     public function tags()
     {
-        return $this->belongsToMany('App\Tag');
+        return $this -> belongsToMany('App\Tag');
     }
 }
