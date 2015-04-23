@@ -10,9 +10,14 @@ use Validator;
 use App\Meta;
 use App\Post;
 use App\Slug;
-use App\Tag;
+use App\User;
 
 class PostController extends Controller {
+
+    public function __construct()
+    {
+        $this->middleware('author', ['except' => ['index', 'show']]);
+    }
 
 	/**
 	 * Display a listing of the resource.
@@ -21,7 +26,9 @@ class PostController extends Controller {
 	 */
 	public function index()
 	{
-        $posts = Post::all();
+        $posts = Post::paginate(6);
+
+        $posts -> setPath('blog');
 
         return view('posts.index',compact('posts'));
 	}
@@ -49,6 +56,9 @@ class PostController extends Controller {
         if($this -> validator( $input ) -> fails())
             return Redirect::to('blog/create') -> withErrors( $this -> validator( $input ) ) -> withInput( $input );
 
+        // Add the user (author) id
+        $input['user_id'] = \Auth::user()->id;
+
         // Create a new record.
         $newPost = Post::create( $input );
 
@@ -74,7 +84,6 @@ class PostController extends Controller {
             ]);
 
             $newPost -> slug() -> save( $metaObj );
-
 
             return Redirect::to("blog/$slug")->with("success", "A new blog post was just created.");
         }

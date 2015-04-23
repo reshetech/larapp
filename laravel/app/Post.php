@@ -8,7 +8,7 @@ class Post extends Model {
 
     protected $dates    = ['published_at'];
 
-    protected $fillable = ['headline','body','published_at'];
+    protected $fillable = ['headline','body','published_at','user_id'];
 
     public function meta()
     {
@@ -23,5 +23,10 @@ class Post extends Model {
     public function tag()
     {
         return $this -> hasOne('App\Tag');
+    }
+
+    public function user()
+    {
+        return $this -> belongsTo('App\User');
     }
 }

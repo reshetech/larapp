@@ -6,7 +6,7 @@
 
     <h1>Create new blog post</h1>
 
-    {!! Form::open(array('action' => 'PostController@store')) !!}
+    {!! Form::open(['action' => 'PostController@store']) !!}
 
     @include('posts._form-fields', ['submitText' => 'Create'])
 
