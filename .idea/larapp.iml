@@ -9,6 +9,9 @@
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/dnoegel/php-xdg-base-dir" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/ringphp" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/streams" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/ircmaxell/password-compat" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/jakub-onderka/php-console-color" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/jakub-onderka/php-console-highlighter" />
@@ -33,6 +36,7 @@
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/phpunit/phpunit-mock-objects" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/psr/log" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/psy/psysh" />
+      <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/react/promise" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/sebastian/comparator" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/sebastian/diff" />
       <excludeFolder url="file://$MODULE_DIR$/laravel/vendor/sebastian/environment" />
@@ -60,16 +64,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
-      <library name="PHARS">
-        <CLASSES>
-          <root url="phar://$MODULE_DIR$/composer.phar" />
-        </CLASSES>
-        <SOURCES>
-          <root url="phar://$MODULE_DIR$/composer.phar" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
       <library name="PHP">
         <CLASSES>
           <root url="file://$MODULE_DIR$/laravel/vendor/phpunit/php-code-coverage" />
@@ -89,6 +83,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/console" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/filesystem" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/finder" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/laravel/vendor/vlucas/phpdotenv" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpunit/php-timer" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpspec/phpspec" />
@@ -100,6 +95,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/security-core" />
           <root url="file://$MODULE_DIR$/laravel/vendor/doctrine/inflector" />
           <root url="file://$MODULE_DIR$/laravel/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/ringphp" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpdocumentor/reflection-docblock" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/class-loader" />
           <root url="file://$MODULE_DIR$/laravel/vendor/swiftmailer/swiftmailer" />
@@ -108,6 +104,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/league/flysystem" />
           <root url="file://$MODULE_DIR$/laravel/vendor/mtdowling/cron-expression" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/comparator" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/react/promise" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/environment" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/http-foundation" />
           <root url="file://$MODULE_DIR$/laravel/vendor/barryvdh/laravel-ide-helper" />
@@ -117,6 +114,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/phpspec/prophecy" />
           <root url="file://$MODULE_DIR$/laravel/vendor/danielstjules/stringy" />
           <root url="file://$MODULE_DIR$/laravel/vendor/psy/psysh" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/streams" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/version" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpunit/php-file-iterator" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/http-kernel" />
@@ -145,6 +143,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/console" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/filesystem" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/finder" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/guzzle" />
           <root url="file://$MODULE_DIR$/laravel/vendor/vlucas/phpdotenv" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpunit/php-timer" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpspec/phpspec" />
@@ -156,6 +155,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/security-core" />
           <root url="file://$MODULE_DIR$/laravel/vendor/doctrine/inflector" />
           <root url="file://$MODULE_DIR$/laravel/vendor/nikic/php-parser" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/ringphp" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpdocumentor/reflection-docblock" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/class-loader" />
           <root url="file://$MODULE_DIR$/laravel/vendor/swiftmailer/swiftmailer" />
@@ -164,6 +164,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/league/flysystem" />
           <root url="file://$MODULE_DIR$/laravel/vendor/mtdowling/cron-expression" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/comparator" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/react/promise" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/environment" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/http-foundation" />
           <root url="file://$MODULE_DIR$/laravel/vendor/barryvdh/laravel-ide-helper" />
@@ -173,6 +174,7 @@
           <root url="file://$MODULE_DIR$/laravel/vendor/phpspec/prophecy" />
           <root url="file://$MODULE_DIR$/laravel/vendor/danielstjules/stringy" />
           <root url="file://$MODULE_DIR$/laravel/vendor/psy/psysh" />
+          <root url="file://$MODULE_DIR$/laravel/vendor/guzzlehttp/streams" />
           <root url="file://$MODULE_DIR$/laravel/vendor/sebastian/version" />
           <root url="file://$MODULE_DIR$/laravel/vendor/phpunit/php-file-iterator" />
           <root url="file://$MODULE_DIR$/laravel/vendor/symfony/http-kernel" />

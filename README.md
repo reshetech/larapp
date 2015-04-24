@@ -7,3 +7,4 @@ Laravel 5 blog including:
 - meta tags
 - search form
 - role model
+- contact form

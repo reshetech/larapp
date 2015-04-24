@@ -1,11 +1,4 @@
-@if ($errors->has())
-    <div class="flash alert alert-danger">
-        @foreach ($errors->all() as $error)
-            {{ $error }}<br>
-        @endforeach
-        <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    </div>
-@endif
+
 
 
 <div class="form-group">

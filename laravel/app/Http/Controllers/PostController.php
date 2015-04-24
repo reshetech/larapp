@@ -1,22 +1,21 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 use Redirect;
 use Request;
 use Validator;
 
+use Mail;
 use App\Meta;
 use App\Post;
 use App\Slug;
-use App\User;
 
 class PostController extends Controller {
 
     public function __construct()
     {
-        $this->middleware('author', ['except' => ['index', 'show']]);
+        $this->middleware('author', ['except' => ['index', 'show', 'search', 'sendMail']]);
     }
 
 	/**
@@ -196,6 +195,18 @@ class PostController extends Controller {
         $posts = Post::where('headline', 'LIKE', "%$q%") -> select(['id', 'headline']) -> get();
 
         return view('search_results', compact('posts', 'q'));
+    }
+
+    public function sendMail()
+    {
+        $data = "some content text.";
+
+        Mail::queue('emails.test', compact('data'), function($message)
+        {
+            $message->to('johondoe@gmail.com', 'john doe')
+                    ->from('mynew@app.com', 'mynewapp.com' )
+                    ->subject('Testing my new app!');
+        });
     }
 
     /**
